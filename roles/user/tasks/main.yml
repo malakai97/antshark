@@ -1,0 +1,49 @@
+---
+
+- name: Disable password login for the root user
+  user:
+    name: root
+    password: x
+    shell: /bin/bash
+    groups: root
+    home: /root
+    state: present
+    
+- name: Create sudoers group
+  group:
+    name: sudo
+    state: present
+    
+- name: Ensure sudo group can sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    insertafter: EOF
+    line: "%sudo   ALL=(ALL:ALL) ALL"
+    validate: "visudo -cf %s"
+
+- name: Create user {{user_username}}
+  user:
+    name: "{{user_username}}"
+    password: x
+    group: users
+    groups: sudo
+    home: /home/{{user_username}}
+    shell: /bin/bash
+    uid: "{{user_uid}}"
+
+- name: Add public keys for {{user_username}}
+  authorized_key:
+    user: "{{user_username}}"
+    key: "{{item}}"
+    state: present
+  with_items: "{{user_public_keys}}"
+
+- name: Upload private keys for {{user_username}}
+  copy:
+    src: "{{item}}"
+    dest: "/home/{{user_username}}/.ssh/"
+    mode: "u=r,g-rwx,o-rwx"
+    owner: "{{user_username}}"
+    group: users
+  with_items: "{{user_private_keys}}"
