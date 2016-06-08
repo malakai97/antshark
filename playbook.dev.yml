@@ -5,10 +5,10 @@
       hostname: "{{ansible_hostname}}"
       
     - role: user
-      user_username: malakai
-      user_uid: 1337
-      user_public_keys: "{{public_keys}}" 
-      user_private_keys: "{{private_keys}}"
+      user_username: "{{user.username}}"
+      user_uid: "{{user.uid}}"
+      user_public_keys: "{{user.public_keys}}" 
+      user_private_keys: "{{user.private_keys}}"
       
     - role: packages
       packages_names:
@@ -22,17 +22,13 @@
         - tree
         
     - role: git
-      git_user_realname: Bryan Hockey
-      git_username: malakai
+      git_user_realname: "{{user.realname}}"
+      git_username: "{{git.username}}"
       git_editor: vi
-      git_user_email: bhock@umich.edu
+      git_user_email: "{{git.email}}"
       
     - role: firewall
-    
-    - role: mail
-      mail_hostname: "{{ansible_hostname}}"
-      mail_email_domain: "@bryan.hockey"
-      
+          
     - role: rbenv
       rbenv_ruby_version: 2.3.0
       rbenv_ruby_versions:

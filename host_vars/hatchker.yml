@@ -1,8 +1,8 @@
 ---
-hostname: reinette
+hostname: hatchker
 user:
-  username: malakai
-  uid: 1337
+  username: bhock
+  uid: 250120
   public_keys:
    - "{{ lookup('file', 'files/ssh/id_rsa-reinette.pub') }}"
    - "{{ lookup('file', 'files/ssh/id_rsa-malakai@hatchker-personal.pub') }}"
