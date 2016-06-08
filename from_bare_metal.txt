@@ -16,9 +16,6 @@ apt-get install python -y
 # Install missing roles
 ansible-galaxy install -r requirements.txt
 
-# Create user, secure root
-ansible-playbook create_user.yml --limit=targethost --ask-pass
-
 # Do everything else
 ansible playbook production.yml|development.yml --limit=targethost
 
