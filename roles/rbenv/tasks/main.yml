@@ -44,12 +44,18 @@
   file:
     path: "{{rbenv_dir}}/plugins"
     state: directory
+    
+- name: download rbenv-update
+  git:
+    accept_hostkey: true
+    repo: "{{rbenv_rbenv_update_git}}"
+    dest: "{{rbenv_dir}}/plugins/rbenv-update"
 
 - name: download ruby-build
   git:
     accept_hostkey: true
     repo: "{{rbenv_ruby_build_git}}"
-    dest: "{{rbenv_dir}}/plugins/ruby_build"
+    dest: "{{rbenv_dir}}/plugins/ruby-build"
 
 - name: set ruby_build permissions
   file:
