@@ -1,0 +1,4 @@
+rbenv_git: git://github.com/rbenv/rbenv.git
+rbenv_dir: /usr/local/rbenv
+rbenv_ruby_build_git: git://github.com/rbenv/ruby-build.git
+rbenv_profile: /etc/profile.d/rbenv.sh
