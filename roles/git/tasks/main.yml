@@ -6,5 +6,12 @@
     - git
     - git-core
     - git-man
-- name: set global git editor
-  command: git config --global core.editor {{git_editor}}
+    
+- name: Install the git config
+  template:
+    src: gitconfig.j2
+    dest: /home/{{git_username}}/.gitconfig
+    force: yes
+    owner: "{{git_username}}"
+    mode: "u=rw,g=r,o=r"
+    
