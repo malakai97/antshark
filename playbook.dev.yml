@@ -20,6 +20,8 @@
         - openssh-server
         - software-properties-common
         - tree
+        - sqlite3
+        - libsqlite3-dev
         
     - role: git
       git_user_realname: "{{user.realname}}"
@@ -28,6 +30,19 @@
       git_user_email: "{{git.email}}"
       
     - role: firewall
+    
+    - role: mattwillsher.sshd
+      sshd_skip_defaults: False
+      sshd_manage_service: True
+      sshd_allow_reload: True
+      sshd:
+        Port: 22
+        Protocol: 2
+        UsePrivilegeSeparation: yes
+        HostbasedAuthentication: no
+        PermitRootLogin: no
+        StrictMode: yes
+        PermitEmptyPasswords: no
           
     - role: rbenv
       rbenv_ruby_version: 2.3.0
