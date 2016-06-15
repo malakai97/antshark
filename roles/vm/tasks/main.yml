@@ -1,0 +1,46 @@
+---
+
+- name: Install dependencies
+  apt:  
+    pkg: "{{item}}"
+    state: present
+  with_items:
+    - virtualbox
+    - virtualbox-dkms
+    - vagrant
+  
+    
+- name: Install vagrant plugin hostsupdater
+  become: yes
+  become_user: "{{vm_user}}"
+  shell: vagrant plugin install vagrant-hostsupdater
+  
+  
+- name: Configure ssh client
+  become: yes
+  become_user: "{{vm_user}}"
+  blockinfile:
+    create: yes
+    dest: /home/{{vm_user}}/.ssh/config
+    insertafter: EOF
+    state: present
+    block: |
+      Host {{vm_ip_range}} *.{{vm_app_name}}.dev
+        StrictHostKeyChecking no
+        UserKnownHostsFile=/dev/null
+        User root
+        LogLevel ERROR
+  
+- name: Mint an ssh keypair for connecting to these vms
+  user:
+    name: "{{vm_user}}"
+    generate_ssh_key: yes
+    ssh_key_file: .ssh/id_rsa-vm-{{vm_app_name}}
+    ssh_key_type: rsa
+    
+- name: Install template
+  template:
+    src: Vagrantfile.j2
+    dest: "{{vm_app_folder}}/Vagrantfile"
+    
+    
