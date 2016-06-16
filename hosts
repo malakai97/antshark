@@ -1,8 +1,17 @@
-[reinette]
+[app]
 reinette
 
-[production]
+[db]
 reinette
 
-[development]
+[web]
+reinette
+
+[production:children]
+app
+db
+web
+
+[workstation]
+hatchker
 localhost ansible_connection=local
