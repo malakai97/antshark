@@ -7,7 +7,7 @@
       swapfile_swappiness: 5
       swapfile_location: /swapfile
 
-- hosts: development
+- hosts: workstation
   become: yes
   roles:
     - role: hostname
