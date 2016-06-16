@@ -7,6 +7,6 @@
   lineinfile:
     create: true
     dest: /etc/aliases
-    line: "root: {{mail_hostname}}@{{mail_email_domain}}"
+    line: "root: {{mail_address}}"
     state: present
     insertafter: EOF

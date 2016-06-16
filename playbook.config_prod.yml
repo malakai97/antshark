@@ -43,8 +43,7 @@
       git_user_email: "{{git.email}}"
 
     - role: mail
-      mail_hostname: "{{ansible_hostname}}"
-      mail_email_domain: "{{bryan.hockey}}"
+      mail_address: "{{mail.address}}"
 
 - hosts: low_memory
   remote_user: "{{user.username}}"
@@ -60,7 +59,7 @@
   remote_user: "{{user.username}}"
   become: yes
   pre_tasks:
-    - name: Generate mysqla password for root
+    - name: Generate mysql password for root
       shell: openssl rand -base64 32 | tr -dc A-Za-z0-9
       register: password_for_mysql_root
   roles:

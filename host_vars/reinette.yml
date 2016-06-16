@@ -12,7 +12,6 @@ user:
    # I forgot what all my ssh keys do but this is how we'd include them.
    # This doesn't work if the deploying machine doesn't have the keys
   realname: Bryan Hockey
-  
-git:
-  username: malakai
-  email: bhock@umich.edu
+
+mail:
+  address: reinette@bryan.hockey
