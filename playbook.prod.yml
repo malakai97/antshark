@@ -1,39 +1,102 @@
 - hosts: production
+  remote_user: root
+  roles:
+    - role: user
+      user_username: "{{user.username}}"
+      user_uid: "{{user.uid}}"
+      user_public_keys: "{{user.public_keys}}"
+      user_private_keys: "{{user.private_keys}}"
+
+- hosts: low_memory
+  remote_user: "{{user.username}}"
   become: yes
-  remote_user: malakai
-  vars_files:
-    - vars/mysql.yml
-    - vars/swap.yml
-  vars:
+  roles:
+    - role: kamaln7.swapfile
+      swapfile_use_dd: False
+      swapfile_size: 1GB
+      swapfile_swappiness: 5
+      swapfile_location: /swapfile
+
+- hosts: production
+  remote_user: "{{user.username}}"
+  become: yes
   pre_tasks:
-    - name: generate a password for root
+    - name: Generate mysqla password for root
       shell: openssl rand -base64 32 | tr -dc A-Za-z0-9
       register: password_for_mysql_root
   roles:
-    - hostname
-    - kamaln7.swapfile # vars/swap.yml
-    - common-packages
-    - git
-    - mail
-    - ntp
-    - geerlingguy.mysql # var/mysql.yml
+    - role: hostname
+      hostname: "{{ansible_hostname}}"
+
+    - firewall # Note: Defaults to ssh only
+
+    - role: mattwillsher.sshd
+      sshd_skip_defaults: False
+      sshd_manage_service: True
+      sshd_allow_reload: True
+      sshd:
+        Port: 22
+        Protocol: 2
+        UsePrivilegeSeparation: yes
+        HostbasedAuthentication: no
+        PermitRootLogin: no
+        StrictMode: yes
+        PermitEmptyPasswords: no
+
+    - role: packages
+      packages_names:
+        - vim
+        - aptitude
+        - build-essential
+        - wget
+        - curl
+        - openssh-server
+        - software-properties-common
+        - tree
+
+    - role: git
+      git_user_realname: "{{user.realname}}"
+      git_username: "{{git.username}}"
+      git_editor: vi
+      git_user_email: "{{git.email}}"
+
+    - role: mail
+      mail_hostname: "{{ansible_hostname}}"
+      mail_email_domain: "{{bryan.hockey}}"
+
+    - role: geerlingguy.mysql
+      mysql_user_home: /root
+      mysql_root_password: "{{password_for_mysql_root.stdout}}"
+      mysql_root_password_update: yes
+      mysql_enabled_on_startup: yes
+      overwrite_global_mycnf: yes
+      mysql_packages:
+        - mysql-client
+        - mysql-server
+        - python-mysqldb
+        - libmysqlclient-dev
+      mysql_log: ""
+      mysql_log_error: /var/log/mysql/mysql.err
+      mysql_syslog_tag: mysqld
+      mysql_slow_query_log_enabled: no
+
     - nginx
     - ruby-prod
-    - firewall
-    - role: rails-prod
-      name: tephue
-      url: tephue.com
-      basepath: /var
-      num_queues: 0
-      group:
-        gid: 200
-        name: tephue
-      user:
-        uid: 1400
-        name: tephue
-        public_keys: "{{user.me.public_keys}}"
-      deploy_user:
-        uid: 1401
-        public_keys: "{{user.me.public_keys}}"
-        github_private_key: /home/malakai/.ssh/id-rsa_github
+
+#    - role: rails-prod
+#      name: tephue
+#      url: tephue.com
+#      basepath: /var
+#      num_queues: 0
+#      group:
+#        gid: 200
+#        name: tephue
+#      user:
+#        uid: 1400
+#        name: tephue
+#        public_keys: "{{user.me.public_keys}}"
+#      deploy_user:
+#        uid: 1401
+#        public_keys: "{{user.me.public_keys}}"
+#        github_private_key: /home/malakai/.ssh/id-rsa_github
 

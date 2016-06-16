@@ -1,7 +1,11 @@
 - hosts: low_memory
   become: yes
   roles:
-    - kamaln7.swapfile
+    - role: kamaln7.swapfile
+      swapfile_use_dd: False
+      swapfile_size: 1GB
+      swapfile_swappiness: 5
+      swapfile_location: /swapfile
 
 - hosts: development
   become: yes
