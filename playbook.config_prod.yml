@@ -7,24 +7,6 @@
       user_public_keys: "{{user.public_keys}}"
       user_private_keys: "{{user.private_keys}}"
 
-- hosts: low_memory
-  remote_user: "{{user.username}}"
-  become: yes
-  roles:
-    - role: kamaln7.swapfile
-      swapfile_use_dd: False
-      swapfile_size: 1GB
-      swapfile_swappiness: 5
-      swapfile_location: /swapfile
-
-- hosts: production
-  remote_user: "{{user.username}}"
-  become: yes
-  pre_tasks:
-    - name: Generate mysqla password for root
-      shell: openssl rand -base64 32 | tr -dc A-Za-z0-9
-      register: password_for_mysql_root
-  roles:
     - role: hostname
       hostname: "{{ansible_hostname}}"
 
@@ -64,6 +46,24 @@
       mail_hostname: "{{ansible_hostname}}"
       mail_email_domain: "{{bryan.hockey}}"
 
+- hosts: low_memory
+  remote_user: "{{user.username}}"
+  become: yes
+  roles:
+    - role: kamaln7.swapfile
+      swapfile_use_dd: False
+      swapfile_size: 1GB
+      swapfile_swappiness: 5
+      swapfile_location: /swapfile
+
+- hosts: db
+  remote_user: "{{user.username}}"
+  become: yes
+  pre_tasks:
+    - name: Generate mysqla password for root
+      shell: openssl rand -base64 32 | tr -dc A-Za-z0-9
+      register: password_for_mysql_root
+  roles:
     - role: geerlingguy.mysql
       mysql_user_home: /root
       mysql_root_password: "{{password_for_mysql_root.stdout}}"
@@ -80,7 +80,16 @@
       mysql_syslog_tag: mysqld
       mysql_slow_query_log_enabled: no
 
+- hosts: web
+  remote_user: "{{user.username}}"
+  become: yes
+  roles:
     - nginx
+
+- hosts: app
+  remote_user: "{{user.username}}"
+  become: yes
+  roles:
     - ruby-prod
 
 #    - role: rails-prod
