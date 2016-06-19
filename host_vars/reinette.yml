@@ -7,8 +7,7 @@ user:
    - "{{ lookup('file', 'files/ssh/id_rsa-reinette.pub') }}"
    - "{{ lookup('file', 'files/ssh/id_rsa-malakai@hatchker-personal.pub') }}"
   private_keys:
-   -  "{{ lookup('env', 'HOME') }}/.ssh/id-rsa_github-hatchker"
-   -  "{{ lookup('env', 'HOME') }}/.ssh/id-rsa_github"
+   -  "{{ lookup('env', 'HOME') }}/.ssh/id_rsa-github"
    # I forgot what all my ssh keys do but this is how we'd include them.
    # This doesn't work if the deploying machine doesn't have the keys
   realname: Bryan Hockey
