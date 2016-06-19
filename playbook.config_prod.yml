@@ -8,7 +8,7 @@
       user_private_keys: "{{user.private_keys}}"
 
     - role: hostname
-      hostname: "{{ansible_hostname}}"
+      hostname: "{{inventory_hostname}}"
 
     - firewall # Note: Defaults to ssh only
 
