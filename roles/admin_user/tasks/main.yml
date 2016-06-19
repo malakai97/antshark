@@ -22,28 +22,28 @@
     line: "%sudo   ALL=(ALL:ALL) NOPASSWD:ALL"
     validate: "visudo -cf %s"
 
-- name: Create user {{user_username}}
+- name: Create user {{admin_user_username}}
   user:
-    name: "{{user_username}}"
+    name: "{{admin_user_username}}"
     password: x
     group: users
     groups: sudo
-    home: /home/{{user_username}}
+    home: /home/{{admin_user_username}}
     shell: /bin/bash
-    uid: "{{user_uid}}"
+    uid: "{{admin_user_uid}}"
 
-- name: Add public keys for {{user_username}}
+- name: Add public keys for {{admin_user_username}}
   authorized_key:
-    user: "{{user_username}}"
+    user: "{{admin_user_username}}"
     key: "{{item}}"
     state: present
-  with_items: "{{user_public_keys}}"
+  with_items: "{{admin_user_public_keys}}"
 
-- name: Upload private keys for {{user_username}}
+- name: Upload private keys for {{admin_user_username}}
   copy:
     src: "{{item}}"
-    dest: "/home/{{user_username}}/.ssh/"
+    dest: "/home/{{admin_user_username}}/.ssh/"
     mode: "u=r,g-rwx,o-rwx"
-    owner: "{{user_username}}"
+    owner: "{{admin_user_username}}"
     group: users
-  with_items: "{{user_private_keys}}"
+  with_items: "{{admin_user_private_keys}}"

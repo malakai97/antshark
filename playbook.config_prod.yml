@@ -1,11 +1,11 @@
 - hosts: production
   remote_user: root
   roles:
-    - role: user
-      user_username: "{{user.username}}"
-      user_uid: "{{user.uid}}"
-      user_public_keys: "{{user.public_keys}}"
-      user_private_keys: "{{user.private_keys}}"
+    - role: admin_user
+      admin_user_username: "{{user.username}}"
+      admin_user_uid: "{{user.uid}}"
+      admin_user_public_keys: "{{user.public_keys}}"
+      admin_user_private_keys: "{{user.private_keys}}"
 
     - role: hostname
       hostname: "{{inventory_hostname}}"
