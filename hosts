@@ -15,3 +15,6 @@ web
 [workstation]
 hatchker
 localhost ansible_connection=local
+
+[low_memory]
+reinette
