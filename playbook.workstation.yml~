@@ -36,7 +36,6 @@
       git_username: "{{git.username}}"
       git_editor: vi
       git_user_email: "{{git.email}}"
-      git_system_user: "{{user.username}}"
       
     - role: firewall
     

@@ -13,7 +13,7 @@ db
 web
 
 [workstation]
-hatchker
+hatchker ansible_connection=local
 localhost ansible_connection=local
 
 [low_memory]

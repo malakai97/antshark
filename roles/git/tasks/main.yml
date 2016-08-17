@@ -10,8 +10,8 @@
 - name: Install the git config
   template:
     src: gitconfig.j2
-    dest: /home/{{git_username}}/.gitconfig
+    dest: /home/{{git_system_user}}/.gitconfig
     force: yes
-    owner: "{{git_username}}"
+    owner: "{{git_system_user}}"
     mode: "u=rw,g=r,o=r"
     
