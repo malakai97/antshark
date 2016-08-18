@@ -1,23 +1,8 @@
-- hosts: low_memory
-  become: yes
-  roles:
-    - role: kamaln7.swapfile
-      swapfile_use_dd: False
-      swapfile_size: 1GB
-      swapfile_swappiness: 5
-      swapfile_location: /swapfile
-
 - hosts: workstation
   become: yes
   roles:
     - role: hostname
       hostname: "{{ansible_hostname}}"
-      
-    #- role: admin_user
-    #  admin_user_name: "{{user.username}}"
-    #  admin_user_uid: "{{user.uid}}"
-    #  admin_user_public_keys: "{{user.public_keys}}" 
-    #  admin_user_private_keys: "{{user.private_keys}}"
       
     - role: packages
       packages_names:
@@ -54,7 +39,8 @@
         PermitEmptyPasswords: no
           
     - role: rbenv
-      rbenv_ruby_version: 2.3.0
+      rbenv_global_ruby_version: 2.3.0
       rbenv_ruby_versions:
         - 2.3.0
+        - 2.3.1
       
