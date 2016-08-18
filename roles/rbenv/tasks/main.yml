@@ -65,6 +65,8 @@
 
 - name: install rubies
   shell: ". {{rbenv_profile}} && rbenv install {{item}}"
+  args:
+    creates: "{{rbenv_dir}}/versions/{{item}}"
   with_items: "{{rbenv_ruby_versions}}"
 
 - name: rehash again
