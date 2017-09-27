@@ -22,13 +22,15 @@
     - role: packages
       packages_names:
         - vim
-        - aptitude
+        - vim-nox
         - build-essential
         - wget
         - curl
         - openssh-server
         - software-properties-common
         - tree
+        - redis-server
+        - rabbitmq-server
         - sqlite3
         - libsqlite3-dev
         
