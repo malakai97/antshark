@@ -12,13 +12,13 @@
   roles:
     - role: hostname
       hostname: "{{ansible_hostname}}"
-      
+
     - role: user
       user_username: "{{user.username}}"
       user_uid: "{{user.uid}}"
-      user_public_keys: "{{user.public_keys}}" 
+      user_public_keys: "{{user.public_keys}}"
       user_private_keys: "{{user.private_keys}}"
-      
+
     - role: packages
       packages_names:
         - vim
@@ -33,15 +33,15 @@
         - rabbitmq-server
         - sqlite3
         - libsqlite3-dev
-        
+
     - role: git
       git_user_realname: "{{user.realname}}"
       git_username: "{{git.username}}"
       git_editor: vi
       git_user_email: "{{git.email}}"
-      
+
     - role: firewall
-    
+
     - role: mattwillsher.sshd
       sshd_skip_defaults: False
       sshd_manage_service: True
@@ -54,9 +54,10 @@
         PermitRootLogin: no
         StrictMode: yes
         PermitEmptyPasswords: no
-          
+
     - role: rbenv
-      rbenv_ruby_version: 2.3.0
+      rbenv_ruby_version: 2.4.2
       rbenv_ruby_versions:
-        - 2.3.0
-      
+        - 2.3.5
+        - 2.4.2
+
