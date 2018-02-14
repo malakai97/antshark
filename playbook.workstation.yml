@@ -21,8 +21,6 @@
 
     - role: packages
       packages_names:
-        - vim
-        - vim-nox
         - build-essential
         - wget
         - curl
@@ -42,6 +40,7 @@
 
     - role: dotfiles
     - role: java
+    - role: vim
     - role: firewall
 
     - role: mattwillsher.sshd

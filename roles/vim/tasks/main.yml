@@ -1,0 +1,21 @@
+- name: Install the packages
+  apt:
+    pkg: "{{item}}"
+    state: present
+  with_items:
+    - vim
+    - vim-nox
+
+- name: create vim bundle dir
+  file:
+    path: "/home/{{user}}/.vim/bundle"
+    state: directory
+
+- name: download rbenv from git
+  git:
+    accept_hostkey: true
+    repo: "{{vim_vundle_git}}"
+    dest: "/home/{{user}}/.vim/bundle/Vundle.vim"
+
+- name: install vundle
+  command: vim +PluginInstall +qall
