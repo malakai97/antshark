@@ -1,0 +1,13 @@
+- name: Add carta ppa
+  apt_repository:
+    repo: ppa:snwh/pulp
+    state: present
+
+- name: Install theme packages
+  apt:
+    pkg: "{{item}}"
+    state: installed
+  with_items:
+    - paper-icon-theme
+    - paper-cursor-theme
+    - paper-gtk-theme
