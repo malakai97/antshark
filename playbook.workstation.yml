@@ -34,14 +34,14 @@
         - sqlite3
         - libsqlite3-dev
 
-    - role: java
-
     - role: git
       git_user_realname: "{{user.realname}}"
       git_username: "{{git.username}}"
       git_editor: vi
       git_user_email: "{{git.email}}"
 
+    - role: dotfiles
+    - role: java
     - role: firewall
 
     - role: mattwillsher.sshd
