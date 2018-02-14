@@ -34,6 +34,8 @@
         - sqlite3
         - libsqlite3-dev
 
+    - role: java
+
     - role: git
       git_user_realname: "{{user.realname}}"
       git_username: "{{git.username}}"

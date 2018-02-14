@@ -1,0 +1,12 @@
+- name: Add webupd8team java  ppa
+  apt_repository:
+    repo: ppa:webupd8team/java
+    state: present
+
+- name: Install java
+  apt:
+    pkg: "{{item}}"
+    state: installed
+  with_items:
+    - oracle-java9-installer
+    - gradle
