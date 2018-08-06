@@ -32,6 +32,7 @@
         - sqlite3
         - libsqlite3-dev
         - chromium-browser
+        - xclip
 
     - role: git
       git_user_realname: "{{user.realname}}"
