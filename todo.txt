@@ -6,3 +6,11 @@ SET this theme
 virtualbox
 
 java install requires interactive acceptance of agreement
+
+theme:
+# paper gtk is missing from 17
+# install cinnamon
+# set the themes
+# shell theme?
+# vim theme?
+# enable colors or whatever?
