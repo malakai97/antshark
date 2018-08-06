@@ -1,0 +1,8 @@
+set clock to 12 hour clock
+
+install carta from the theme manager
+SET this theme
+
+virtualbox
+
+java install requires interactive acceptance of agreement
