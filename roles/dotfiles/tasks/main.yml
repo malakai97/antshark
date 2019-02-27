@@ -2,20 +2,20 @@
   git:
     accept_hostkey: true
     repo: "{{dotfiles_git}}"
-    dest: "/home/{{user}}/dotfiles"
+    dest: "/home/{{user.username}}/dotfiles"
 
 - name: remove .git dir
   file:
-    path: "/home/{{user}}/dotfiles/.git"
+    path: "/home/{{user.username}}/dotfiles/.git"
     state: absent
 
 - name: cp out dotfiles
   copy:
     remote_src: true
-    src: "/home/{{user}}/dotfiles/"
-    dest: "/home/{{user}}/"
+    src: "/home/{{user.username}}/dotfiles/"
+    dest: "/home/{{user.username}}/"
 
 - name: remote emtpy dotfiles dir
   file:
-    path: "/home/{{user}}/dotfiles"
+    path: "/home/{{user.username}}/dotfiles"
     state: absent

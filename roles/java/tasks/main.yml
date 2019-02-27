@@ -8,5 +8,5 @@
     pkg: "{{item}}"
     state: installed
   with_items:
-    - oracle-java9-installer
+    - oracle-java8-installer
     - gradle

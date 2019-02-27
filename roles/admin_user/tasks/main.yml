@@ -1,49 +1,13 @@
 ---
 
-- name: Disable password login for the root user
+- name: set uid
   user:
-    name: root
-    password: x
-    shell: /bin/bash
-    groups: root
-    home: /root
-    state: present
-    
-- name: Create sudoers group
-  group:
-    name: sudo
-    state: present
-    
-- name: Ensure sudo group can sudo
-  lineinfile:
-    dest: /etc/sudoers
-    state: present
-    insertafter: EOF
-    line: "%sudo   ALL=(ALL:ALL) NOPASSWD:ALL"
-    validate: "visudo -cf %s"
+    name: "{{user.username}}"
+    uid: "{{user.uid}}"
+- name: re-own files
+  file:
+    path: "/home/{{user.username}}"
+    state: directory
+    recursive: true
+    owner: "{{user.username}}"
 
-- name: Create user {{admin_user_username}}
-  user:
-    name: "{{admin_user_username}}"
-    password: x
-    group: users
-    groups: sudo
-    home: /home/{{admin_user_username}}
-    shell: /bin/bash
-    uid: "{{admin_user_uid}}"
-
-- name: Add public keys for {{admin_user_username}}
-  authorized_key:
-    user: "{{admin_user_username}}"
-    key: "{{item}}"
-    state: present
-  with_items: "{{admin_user_public_keys}}"
-
-- name: Upload private keys for {{admin_user_username}}
-  copy:
-    src: "{{item}}"
-    dest: "/home/{{admin_user_username}}/.ssh/"
-    mode: "u=r,g-rwx,o-rwx"
-    owner: "{{admin_user_username}}"
-    group: users
-  with_items: "{{admin_user_private_keys}}"

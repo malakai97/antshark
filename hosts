@@ -1,20 +1,3 @@
-[app]
-reinette
-
-[db]
-reinette
-
-[web]
-reinette
-
-[production:children]
-app
-db
-web
-
 [workstation]
-hatchker
-localhost ansible_connection=local
+hatchker ansible_connection=local
 
-[low_memory]
-reinette

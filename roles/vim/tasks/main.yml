@@ -9,14 +9,14 @@
 
 - name: create vim bundle dir
   file:
-    path: "/home/{{user}}/.vim/bundle"
+    path: "/home/{{user.username}}/.vim/bundle"
     state: directory
 
-- name: download rbenv from git
+- name: download vundle from git
   git:
     accept_hostkey: true
-    repo: "{{vim_vundle_git}}"
-    dest: "/home/{{user}}/.vim/bundle/Vundle.vim"
+    repo: https://github.com/VundleVim/Vundle.vim.git
+    dest: "/home/{{user.username}}/.vim/bundle/Vundle.vim"
 
 - name: install vundle
   command: vim +PluginInstall +qall

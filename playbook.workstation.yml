@@ -1,68 +1,32 @@
-- hosts: low_memory
-  become: yes
-  roles:
-    - role: kamaln7.swapfile
-      swapfile_use_dd: False
-      swapfile_size: 1GB
-      swapfile_swappiness: 5
-      swapfile_location: /swapfile
-
 - hosts: workstation
   become: yes
-  roles:
-    - role: hostname
-      hostname: "{{ansible_hostname}}"
-
-    - role: user
-      user_username: "{{user.username}}"
-      user_uid: "{{user.uid}}"
-      user_public_keys: "{{user.public_keys}}"
-      user_private_keys: "{{user.private_keys}}"
-
-    - role: packages
-      packages_names:
+  tasks:
+    - hostname: "{{ansible_hostname}}"
+    - include_role: admin_user
+    - apt:
+        pkg: "{{item}}"
+        state: present
+      with_items:
         - build-essential
         - wget
         - curl
-        - openssh-server
-        - software-properties-common
         - tree
-        - redis-server
-        - rabbitmq-server
-        - sqlite3
         - libsqlite3-dev
-        - chromium-browser
+        - sqlite3
         - xclip
+        - firefox
+        - software-properties-common
+    - include_role: dotfiles
+    - include_role: vim
+    - include_role: firewall
+    - include_role: java
+    - include_role: rbenv
+      vars:
+        rbenv_gloabl_ruby_version: 2.5.1
+        rbenv_ruby_versions:
+          - 2.4.4
+          - 2.5.1
+    - include_role: cinnamon
+      #    - include_role: theme
 
-    - role: git
-      git_user_realname: "{{user.realname}}"
-      git_username: "{{git.username}}"
-      git_editor: vi
-      git_user_email: "{{git.email}}"
-
-    - role: dotfiles
-    - role: java
-    - role: vim
-    - role: firewall
-
-    - role: mattwillsher.sshd
-      sshd_skip_defaults: False
-      sshd_manage_service: True
-      sshd_allow_reload: True
-      sshd:
-        Port: 22
-        Protocol: 2
-        UsePrivilegeSeparation: yes
-        HostbasedAuthentication: no
-        PermitRootLogin: no
-        StrictMode: yes
-        PermitEmptyPasswords: no
-
-    - role: rbenv
-      rbenv_ruby_version: 2.4.2
-      rbenv_ruby_versions:
-        - 2.3.5
-        - 2.4.2
-
-    - role: theme
 

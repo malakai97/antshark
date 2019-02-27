@@ -14,7 +14,7 @@
     - libsqlite3-dev
     - libncurses5-dev
     - libffi-dev
-    - libgdbm3
+    - libgdbm5
     - libgdbm-dev
 
 - name: download rbenv from git
@@ -63,7 +63,7 @@
     repo: "{{rbenv_ruby_build_git}}"
     dest: "{{rbenv_dir}}/plugins/ruby-build"
 
-- name: set ruby_build permissions
+- name: set plugin permissions
   file:
     path: "{{rbenv_dir}}/plugins"
     mode: "o+rsXx"
@@ -79,6 +79,10 @@
 - name: set global ruby version
   shell: ". {{rbenv_profile}} && rbenv global {{rbenv_global_ruby_version}}"
 
-- name: install bundler
-  shell: ". {{rbenv_profile}} && gem install bundler"
+- name: install system gems
+  shell: ". {{rbenv_profile}} && gem install {{item}}"
+  with_items:
+    - bundler
+    - pry
+
 
