@@ -1,12 +1,12 @@
 - name: install git
   apt:
     pkg: "{{item}}"
-    state: installed
+    state: present
   with_items:
     - git
     - git-core
     - git-man
-    
+
 - name: Install the git config
   template:
     src: gitconfig.j2
@@ -14,4 +14,4 @@
     force: yes
     owner: "{{git_username}}"
     mode: "u=rw,g=r,o=r"
-    
+

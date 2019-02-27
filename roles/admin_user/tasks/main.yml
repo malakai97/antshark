@@ -8,6 +8,6 @@
   file:
     path: "/home/{{user.username}}"
     state: directory
-    recursive: true
+    recurse: true
     owner: "{{user.username}}"
 

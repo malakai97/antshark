@@ -1,7 +1,7 @@
 - name: install ruby development package dependencies
   apt:
     pkg: "{{item}}"
-    state: installed
+    state: present
   with_items:
     - autoconf
     - bison
@@ -37,9 +37,6 @@
     mode: "u=rw,go=rx"
     dest: "{{rbenv_profile}}"
 
-- name: rehash rbenv
-  shell: ". {{rbenv_profile}} && rbenv init - && rbenv rehash"
-
 - name: create plugins directory
   file:
     path: "{{rbenv_dir}}/plugins"
@@ -69,20 +66,20 @@
     mode: "o+rsXx"
     recurse: true
 
+- name: get list of installed rubies
+  shell: ". {{rbenv_profile}} && rbenv versions"
+  register: rubies
+
 - name: install rubies
   shell: ". {{rbenv_profile}} && rbenv install {{item}}"
   with_items: "{{rbenv_ruby_versions}}"
+  when: item not in rubies.stdout
 
-- name: rehash again
-  shell: ". {{rbenv_profile}} && rbenv init - && rbenv rehash"
 
 - name: set global ruby version
   shell: ". {{rbenv_profile}} && rbenv global {{rbenv_global_ruby_version}}"
 
-- name: install system gems
-  shell: ". {{rbenv_profile}} && gem install {{item}}"
-  with_items:
-    - bundler
-    - pry
-
+- name: install bundler and pry
+  shell: ". {{rbenv_profile}} && rbenv shell {{item}} && gem install bundler pry"
+  with_items: "{{rbenv_ruby_versions}}"
 

@@ -1,6 +1,6 @@
 - name: Install cinnamon
   apt:
     pkg: "{{item}}"
-    state: installed
+    state: present
   with_items:
     - cinnamon

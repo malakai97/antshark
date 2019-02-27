@@ -1,8 +1,8 @@
 - hosts: workstation
   become: yes
   tasks:
-    - hostname: "{{ansible_hostname}}"
-    - include_role: admin_user
+    - hostname:
+        name: "{{ansible_hostname}}"
     - apt:
         pkg: "{{item}}"
         state: present
@@ -16,17 +16,26 @@
         - xclip
         - firefox
         - software-properties-common
-    - include_role: dotfiles
-    - include_role: vim
-    - include_role: firewall
-    - include_role: java
-    - include_role: rbenv
+    - import_role:
+        name: dotfiles
+    - import_role:
+        name: vim
+    - import_role:
+        name: firewall
+    - import_role:
+        name: java
+    - import_role:
+        name: rbenv
       vars:
-        rbenv_gloabl_ruby_version: 2.5.1
+        rbenv_global_ruby_version: 2.5.1
         rbenv_ruby_versions:
           - 2.4.4
           - 2.5.1
-    - include_role: cinnamon
-      #    - include_role: theme
+    - import_role:
+        name: cinnamon
+      #    - import_role:
+      #     name: theme
+    - import_role:
+        name: admin_user
 
 

@@ -3,10 +3,24 @@
     repo: ppa:webupd8team/java
     state: present
 
+- name: see the agreement
+  debconf:
+    name: oracle-java8-installer
+    question: shared/accepted-oracle-license-v1-1
+    value: 'true'
+    vtype: seen
+
+- name: sign the agreement
+  debconf:
+    name: oracle-java8-installer
+    question: shared/accepted-oracle-license-v1-1
+    value: 'true'
+    vtype: select
+
 - name: Install java
   apt:
     pkg: "{{item}}"
-    state: installed
+    state: present
   with_items:
     - oracle-java8-installer
     - gradle

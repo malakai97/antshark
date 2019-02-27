@@ -11,11 +11,10 @@
 
 - name: cp out dotfiles
   copy:
-    remote_src: true
     src: "/home/{{user.username}}/dotfiles/"
     dest: "/home/{{user.username}}/"
 
-- name: remote emtpy dotfiles dir
+- name: remove dotfiles dir
   file:
     path: "/home/{{user.username}}/dotfiles"
     state: absent

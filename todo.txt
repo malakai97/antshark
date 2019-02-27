@@ -5,6 +5,8 @@ SET this theme
 
 java install requires interactive acceptance of agreement
 
+# enpass
+
 theme:
 # paper gtk is missing from 17
 # install cinnamon
