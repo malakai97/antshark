@@ -16,6 +16,7 @@
     - libffi-dev
     - libgdbm5
     - libgdbm-dev
+    - libmysqlclient-dev
 
 - name: download rbenv from git
   git:
